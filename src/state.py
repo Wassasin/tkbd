@@ -80,6 +80,8 @@ class State(Module):
             self.l.exception("ScheduleError while pulling schedule.  "+
                              "Retrying in 5m")
             delay = 5*60
+            # Pulling schedule has failed, and thus we must start a new attempt
+            self.pulling_schedule = False
         if not self.running:
             return
         self.scheduler.plan(time.time() + delay, self._pull_schedule_loop)
